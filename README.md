@@ -3,13 +3,10 @@
 
 Angular.js directive for Dan Grossmans's [Bootstrap Datepicker](https://github.com/dangrossman/bootstrap-daterangepicker).
 
-## Maintainer needed!
-Hello, as you may noticed, we have troubles maintaining this repo. So if there is somebody willing to help merging PRs, testing and releasing, please contact me at lukas.marek(at)fragaria.cz.
-Thank you!
-
 [DEMO](http://fragaria.github.io/angular-daterangepicker/)
 
-**Beware: Use [Bootstrap Datepicker](https://github.com/dangrossman/bootstrap-daterangepicker) v 3.0.3 and newer!**
+**Beware: Use [Bootstrap Datepicker](https://github.com/dangrossman/bootstrap-daterangepicker) v 2.0.0 and newer!
+Older version of datepicker are supported with 0.1.17 release**
 
 ![Date Range Picker screenshot](http://i.imgur.com/zDjBqiS.png)
 
@@ -32,7 +29,8 @@ Assuming that bower installation directory is `bower_components`. In case of oth
 <script src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 <script src="bower_components/angular-daterangepicker/js/angular-daterangepicker.js"></script>
 
-<link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker.css"/>
+<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+<link rel="stylesheet" href="bower_components/bootstrap-daterangepicker/daterangepicker-bs3.css"/>
 ```
 
 Declare dependency:
@@ -45,7 +43,7 @@ Prepare model in your controller. The model **must** have `startDate` and `endDa
 
 ```
 exampleApp.controller('TestCtrl', function ($scope) {
-	$scope.datePicker = { date: {startDate: null, endDate: null} };
+	$scope.datePicker.date = {startDate: null, endDate: null};
 }
 ```
 
@@ -64,85 +62,18 @@ See `example.html` for working demo.
 Do not forget to add a dot (.) in your model object to avoid [issues with scope inheritance](https://github.com/angular/angular.js/wiki/Understanding-Scopes). E.g. use `$scope.datePicker.date` instead of `$scope.date`.
 
 ## Advanced usage
-
-####**Extra Options**  
-These are options beyond those provided in daterangepicker.
-
-`pickerClasses` : **string**  
--- additional classesadded to picker dropdown element
-
-`cancelOnOutsideClick` : **boolean**  (default: true)  <sup><sub>(only applicable when autoApply==false)</sub></sup>  
-If true, then clicking outside of the picker, after value has been changed on calendar,
-will trigger clicking cancel rather than applying value to model.
-If false, apply will be triggered.
-
-`changeCallback` : **function(startDate, endDate, label)**  
-This will be called in the second $.daterangepicker callback parameter
-
-
-####**Optional Attributes**
-
-`picker` : **object**  
--- object to assign dateRangePicker data object to
-
-`options` : **object** (watched)  
--- all dateRangePicker options
-
-`clearable` : **boolean**  (watched)  
--- will change cancel button to clear and use `options.locale.clearLabel` for text
-
-`min` & `max` : **moment** || *date string* (watched)  
--- sets min/max date values for picker
-
-`picker-classes` : **string**  
--- additional classes added to picker dropdown element
-
-## Example element
-```
-<input date-range-picker class="form-control date-picker" type="text"
-       ng-model="datePicker.date"
-       picker="datePicker.picker"
-       picker-classes="extra-class-names"
-       min="'2014-02-23'"
-       max="datePicker.maxDate"
-       options="datePicker.options"
-       options="{locale: {separator: ":"}}"
-       />
-```
-
-
-## Example options
+Min and max value can be set via additional attributes:
 
 ```
-$scope.dateRangePicker = {
-    date: {startDate: moment().subtract(1, 'years'), endDate: moment().add(1, 'years')} 
-    picker: null,
-    options: {
-        pickerClasses: 'custom-display', //angular-daterangepicker extra
-        buttonClasses: 'btn',
-        applyButtonClasses: 'btn-primary',
-        cancelButtonClasses: 'btn-danger',
-        locale: {
-            applyLabel: "Apply",
-            cancelLabel: 'Cancel',
-            customRangeLabel: 'Custom range',
-            separator: ' - ',
-            format: "YYYY-MM-DD", //will give you 2017-01-06
-            //format: "D-MMM-YY", //will give you 6-Jan-17
-            //format: "D-MMMM-YY", //will give you 6-January-17
-        },
-        ranges: {
-            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()]
-        },
-        eventHandlers: {
-            'apply.daterangepicker': function(event, picker) { console.log('applied'); }
-        }
-    }
-};
+<input date-range-picker class="form-control date-picker" type="text" ng-model="date" min="'2014-02-23'" max="'2015-02-25'"/>
 ```
 
-## Events
+The date picker can be further customized by passing in the `options` attribute.
+
+```
+<input date-range-picker class="form-control date-picker" type="text" ng-model="date"
+min="'2014-02-23'" max="'2015-02-25'" options="{separator: ":"}"/>
+```
 
 Optionally, event handlers can be passed in through the `eventHandlers` attribute of `options`.
 
@@ -166,14 +97,8 @@ All event handlers from the Bootstrap daterangepicker are supported. For referen
 `cancel.daterangepicker`: Triggered when the cancel button is clicked
 
 ## Compatibility
-Version > 0.3.0 requires [Bootstrap Datepicker](https://github.com/dangrossman/bootstrap-daterangepicker) 3.0.3 and newer.
 Version > 0.2.0 requires [Bootstrap Datepicker](https://github.com/dangrossman/bootstrap-daterangepicker) 2.0.0 and newer.
 Version > 0.1.1 requires [Bootstrap Datepicker](https://github.com/dangrossman/bootstrap-daterangepicker) 1.3.3 and newer.
-
-## Changes of note
-####0.3.0
-`cancelOnOutsideClick` - enabled by default, was previously unhandled
-
 
 ## Links
 See [original documentation](https://github.com/dangrossman/bootstrap-daterangepicker).
@@ -181,9 +106,8 @@ See [original documentation](https://github.com/dangrossman/bootstrap-daterangep
 ## Issues and Pull Requests
 The PRs are more than welcome – thank you for those.
 
-Please send me PRs only for `*.coffee` code. **Please, do not include Javascript and minified Javascript into PRs.**
-Javascript and minified Javascript will be generated later with `grunt dist` command
-just before the release.
+Please send PRs only for `*.coffee` code. Javascript and minified Javascript should be generated with `grunt dist` command
+just before the commit.
 
 [![Throughput Graph](https://graphs.waffle.io/fragaria/angular-daterangepicker/throughput.svg)](https://waffle.io/fragaria/angular-daterangepicker/metrics)
 
