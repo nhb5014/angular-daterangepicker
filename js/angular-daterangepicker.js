@@ -115,9 +115,8 @@
               return date.format(opts.locale.format);
             }
           };
-          if (opts.singleDatePicker && model) {
-            viewValue = f(model);
-          } else if (model && (model.startDate || model.endDate)) {
+          
+          if (model && (model.startDate || model.endDate)) {
             viewValue = [f(model.startDate), f(model.endDate)].join(opts.locale.separator);
           } else {
             viewValue = '';
