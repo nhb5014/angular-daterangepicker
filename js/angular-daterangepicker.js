@@ -88,8 +88,12 @@
               return date.format(opts.locale.format);
             }
           };
-          
-          if (objValue.startDate) {
+          if (opts.singleDatePicker && objValue) {
+            if (opts.nullableDate && objValue.startDate === null) {
+              return '';
+            }
+            return f(objValue);
+          } else if (objValue.startDate) {
             return [f(objValue.startDate), f(objValue.endDate)].join(opts.locale.separator);
           } else {
             return '';
